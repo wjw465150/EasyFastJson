@@ -322,11 +322,29 @@ public class JsonObject extends JsonElement {
    * @param clzz
    *          要转换对象的类型
    * @return
+   * @throws DecodeException
    */
   public static <T> T fromJson(String json, Class<T> clzz) throws DecodeException {
     return Json.decodeValue(json, clzz);
   }
 
+  /**
+   * 把JSON格式的字符串,转换成Java的集合对象(List,Map)对象
+   * @param <T>
+   *          泛型声明
+   * @param json
+   *          JSON字符串
+   * @param collectionClass
+   *          要转换集合的类型
+   * @param elementClasses
+   *          要转换元素的类型
+   * @return
+   * @throws DecodeException
+   */
+  public static <T> T fromJson(String json, Class<T> collectionClass,Class<?>... elementClasses) throws DecodeException {
+    return Json.decodeCollectionValue(json, collectionClass,elementClasses);
+  }
+  
   /** 
    * 把Java对象输出成JSON格式的字符串
    * @param <T>

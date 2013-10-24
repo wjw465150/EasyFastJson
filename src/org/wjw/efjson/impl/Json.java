@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -101,6 +102,17 @@ public class Json {
     }
   }
 
+  @SuppressWarnings("unchecked")
+  public static <T> T decodeCollectionValue(String str, Class<T> collectionClass,Class<?>... elementClasses) throws DecodeException {
+    try {
+      JavaType javaType = mapper.getTypeFactory().constructParametricType(collectionClass,elementClasses);
+      return (T)mapper.readValue(str, javaType);
+    }
+    catch (Exception e) {
+      throw new DecodeException("Failed to decode:" + e.getMessage());
+    }
+  }
+  
   static {
     prettyMapper.configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES, true);
 
