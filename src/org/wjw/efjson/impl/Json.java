@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 
 import org.wjw.efjson.DecodeException;
 import org.wjw.efjson.EncodeException;
+import org.wjw.efjson.TypeReference;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -96,6 +97,16 @@ public class Json {
   public static <T> T decodeValue(String str, Class<?> clazz) throws DecodeException {
     try {
       return (T)mapper.readValue(str, clazz);
+    }
+    catch (Exception e) {
+      throw new DecodeException("Failed to decode:" + e.getMessage());
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> T decodeValue(String str, TypeReference<T> valueTypeRef) throws DecodeException {
+    try {
+      return (T)mapper.readValue(str, valueTypeRef);
     }
     catch (Exception e) {
       throw new DecodeException("Failed to decode:" + e.getMessage());

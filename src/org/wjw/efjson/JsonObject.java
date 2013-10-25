@@ -345,6 +345,21 @@ public class JsonObject extends JsonElement {
     return Json.decodeCollectionValue(json, collectionClass,elementClasses);
   }
   
+  /**
+   * 把JSON格式的字符串,转换成Java对象
+   * @param <T>
+   *          泛型声明
+   * @param json
+   *          JSON字符串
+   * @param valueTypeRef
+   *          针对集合泛型的类型引用类
+   * @return
+   * @throws DecodeException
+   */
+  public static <T> T fromJson(String json, TypeReference<T> valueTypeRef) throws DecodeException {
+    return Json.decodeValue(json, valueTypeRef);
+  }
+  
   /** 
    * 把Java对象输出成JSON格式的字符串
    * @param <T>
