@@ -20,14 +20,28 @@ Two kinds of use:
 >  `JSONObjectA.putString();`  
 >  `JSONObjectA.putObject();`  
 >  
->  `  String jsonString = JSONObjectA.encode();   //no Carriage return and line feed and Indentation Raw Format JSON String`  
->  `  String jsonString = JSONObjectA.encodePrettily();  //Prettily Format JSON String`  
+>  `   //no Carriage return and line feed and Indentation Raw Format JSON String`<br/>
+>  `  String jsonString = JSONObjectA.encode();   `  
+
+>  `   //Prettily Format JSON String`<br/>
+>  `  String jsonString = JSONObjectA.encodePrettily();  `  
   
 
 ###2. Like Gson Java Bean way:
->  `  T obj = org.wjw.efjson.JsonObject.fromJson(JsonString,T.class);  //create Java Bean from JSON String`  
->  `  List<T> list = JsonObject.fromJson(jsonStr, java.util.List.class, T.class);  //create List from JSON String`  
->  `  Map<String, T> map = JsonObject.fromJson(jsonStr, java.util.Map.class, String.class, T.class);  //create Map from JSON String`  
->  `  Map<String, List<T>> mmap = JsonObject.fromJson(jsonStr, new TypeReference<Map<String, List<T>>>(){});  //create Complex collection nested types from JSON String`  
->  `  String jsonString = org.wjw.efjson.JsonObject.toJson(t);  //no Carriage return and line feed and Indentation Raw Format JSON String`  
->  `  String jsonString = org.wjw.efjson.JsonObject.toJsonPrettily(t);  //Prettily Format JSON String`  
+>  `   //create Java Bean from JSON String`<br/>
+>  `  T obj = org.wjw.efjson.JsonObject.fromJson(JsonString,T.class); `  
+
+>  `   //create List from JSON String`<br/>
+>  `  List<T> list = JsonObject.fromJson(jsonStr, java.util.List.class, T.class);  `  
+
+>  `   //create Map from JSON String`<br/>
+>  `  Map<String, T> map = JsonObject.fromJson(jsonStr, java.util.Map.class, String.class, T.class);  `  
+
+>  `  //create Complex collection nested types from JSON String`<br/>
+>  `  Map<String, List<T>> mmap = JsonObject.fromJson(jsonStr, new TypeReference<Map<String, List<T>>>(){});  `  
+
+>  `   //no Carriage return and line feed and Indentation Raw Format JSON String`<br/>
+>  `  String jsonString = org.wjw.efjson.JsonObject.toJson(t);  `  
+
+>  `   //Prettily Format JSON String`<br/>
+>  `  String jsonString = org.wjw.efjson.JsonObject.toJsonPrettily(t);  `  
