@@ -381,6 +381,6 @@ public class JsonObject extends JsonElement {
    * @return JSON×Ö·û´®
    */
   public static <T> String toJsonPrettily(T bean) throws EncodeException {
-    return Json.encode(bean);
+    return Json.encodePrettily(bean);
   }
 }
