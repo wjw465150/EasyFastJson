@@ -246,10 +246,17 @@ public class JsonObject extends JsonElement {
     return this;
   }
 
+  /** 
+   * 输出成JSON格式的字符串
+   * @return JSON字符串
+   */
   public String encode() {
     return Json.encode(this.map);
   }
 
+  /**
+   * 输出成易读格式的JSON格式的字符串
+   */
   public String encodePrettily() {  //@wjw_add
     return Json.encodePrettily(this.map);
   }

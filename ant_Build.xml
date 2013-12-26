@@ -5,7 +5,7 @@
     <delete dir="${basedir}/doc-api" quiet="true"/>
     <javadoc access="public" author="true"
       classpath="lib/jackson-core-2.2.3.jar;lib/jackson-databind-2.2.3.jar"
-      destdir="doc-api" Windowtitle="Esay Json" doctitle="Esay Json" nodeprecated="false" nodeprecatedlist="false" noindex="false"
+      destdir="doc-api" Windowtitle="Esay Fast Json" doctitle="Esay Fast Json" nodeprecated="false" nodeprecatedlist="false" noindex="false"
       nonavbar="false" notree="false" source="1.6" 
       splitindex="true" use="true" version="true">
       <fileset dir="src">
