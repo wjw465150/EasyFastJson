@@ -16,7 +16,7 @@
 
 package org.wjw.efjson.impl;
 
-
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import org.wjw.efjson.DecodeException;
@@ -55,8 +55,8 @@ public class Json {
     mapper.configure(MapperFeature.AUTO_DETECT_IS_GETTERS, false);
     mapper.configure(MapperFeature.AUTO_DETECT_FIELDS, true);
     mapper.configure(MapperFeature.USE_STATIC_TYPING, false);
-    
-    mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z"));  //mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+    mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z")); //mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
     mapper.configure(SerializationFeature.INDENT_OUTPUT, false);
     mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, false);
@@ -76,54 +76,6 @@ public class Json {
     mapper.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(Visibility.ANY));
   }
 
-  public static String encode(Object obj) throws EncodeException {
-    try {
-      return mapper.writeValueAsString(obj);
-    }
-    catch (Exception e) {
-      throw new EncodeException("Failed to encode as JSON: " + e.getMessage());
-    }
-  }
-
-  public static String encodePrettily(Object obj) throws EncodeException {
-    try {
-      return prettyMapper.writeValueAsString(obj);
-    } catch (Exception e) {
-      throw new EncodeException("Failed to encode as JSON: " + e.getMessage());
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  public static <T> T decodeValue(String str, Class<?> clazz) throws DecodeException {
-    try {
-      return (T)mapper.readValue(str, clazz);
-    }
-    catch (Exception e) {
-      throw new DecodeException("Failed to decode:" + e.getMessage());
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  public static <T> T decodeValue(String str, TypeReference<T> valueTypeRef) throws DecodeException {
-    try {
-      return (T)mapper.readValue(str, valueTypeRef);
-    }
-    catch (Exception e) {
-      throw new DecodeException("Failed to decode:" + e.getMessage());
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  public static <T> T decodeCollectionValue(String str, Class<T> collectionClass,Class<?>... elementClasses) throws DecodeException {
-    try {
-      JavaType javaType = mapper.getTypeFactory().constructParametricType(collectionClass,elementClasses);
-      return (T)mapper.readValue(str, javaType);
-    }
-    catch (Exception e) {
-      throw new DecodeException("Failed to decode:" + e.getMessage());
-    }
-  }
-  
   static {
     prettyMapper.configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES, true);
 
@@ -137,8 +89,8 @@ public class Json {
     prettyMapper.configure(MapperFeature.AUTO_DETECT_IS_GETTERS, false);
     prettyMapper.configure(MapperFeature.AUTO_DETECT_FIELDS, true);
     prettyMapper.configure(MapperFeature.USE_STATIC_TYPING, false);
-    
-    prettyMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z"));  //prettyMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+    prettyMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z")); //prettyMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     prettyMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
     prettyMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
     prettyMapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, false);
@@ -156,6 +108,56 @@ public class Json {
 
     // If you want to access private fields, you need to play with the Visibility by adding the following line:
     prettyMapper.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(Visibility.ANY));
+  }
+
+  public static void setDateFormat(DateFormat dateformat) {
+    mapper.setDateFormat(dateformat);
+    prettyMapper.setDateFormat(dateformat);
+  }
+
+  public static String encode(Object obj) throws EncodeException {
+    try {
+      return mapper.writeValueAsString(obj);
+    } catch (Exception e) {
+      throw new EncodeException("Failed to encode as JSON: " + e.getMessage());
+    }
+  }
+
+  public static String encodePrettily(Object obj) throws EncodeException {
+    try {
+      return prettyMapper.writeValueAsString(obj);
+    } catch (Exception e) {
+      throw new EncodeException("Failed to encode as JSON: " + e.getMessage());
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> T decodeValue(String str, Class<?> clazz) throws DecodeException {
+    try {
+      return (T) mapper.readValue(str, clazz);
+    } catch (Exception e) {
+      throw new DecodeException("Failed to decode:" + e.getMessage());
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> T decodeValue(String str, TypeReference<T> valueTypeRef) throws DecodeException {
+    try {
+      return (T) mapper.readValue(str, valueTypeRef);
+    } catch (Exception e) {
+      throw new DecodeException("Failed to decode:" + e.getMessage());
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> T decodeCollectionValue(String str, Class<T> collectionClass, Class<?>... elementClasses)
+      throws DecodeException {
+    try {
+      JavaType javaType = mapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
+      return (T) mapper.readValue(str, javaType);
+    } catch (Exception e) {
+      throw new DecodeException("Failed to decode:" + e.getMessage());
+    }
   }
 
 }

@@ -31,7 +31,7 @@
   	<unzip src="${basedir}/EasyFastJson.jar" dest="${basedir}/tmp">
   	</unzip>
   	<delete file="${basedir}/EasyFastJson.jar"/>
-    <jar destfile="${basedir}/EasyFastJson-2.2.3.jar">
+    <jar destfile="${basedir}/EasyFastJson-2.2.4.jar">
       <fileset dir="${basedir}/tmp">
         <include name="org/**" />
         <include name="internal/**" />
@@ -40,7 +40,7 @@
   	  <manifest>
   		  <attribute name="Built-By" value="wjw465150@gmail.com" />
   		  <attribute name="Build-Name" value="EasyFastJson" />
-  		  <attribute name="Build-Version" value="2.2.3" />
+  		  <attribute name="Build-Version" value="2.2.4" />
   	  </manifest>
     </jar>
   	<delete dir="${basedir}/tmp" quiet="true"/>

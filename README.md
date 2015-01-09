@@ -3,10 +3,11 @@ EasyFastJson
 
 Encapsulates Jackon JSON library, Fast Speed Easy Used Json Lib For java
 
-> Date Format is: `yyyy-MM-dd HH:mm:ss Z`  
+> Default Date Format is: `yyyy-MM-dd HH:mm:ss Z`  
 >example: 
-> java.util.Date birth = new java.util.Date();
-> JSON String out is: `2013-08-16 13:17:03 +0800` 
+> java.util.Date birth = new java.util.Date();  
+> JSON String out is: `2013-08-16 13:17:03 +0800`   
+> Change DateFormat: `org.wjw.efjson.JsonObject.setDateFormat(new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"));`,this change is global!  
 
 Two kinds of use:  
 --------------

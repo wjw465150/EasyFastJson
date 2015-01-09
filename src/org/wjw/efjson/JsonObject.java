@@ -16,6 +16,8 @@
 
 package org.wjw.efjson;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -390,4 +392,14 @@ public class JsonObject extends JsonElement {
   public static <T> String toJsonPrettily(T bean) throws EncodeException {
     return Json.encodePrettily(bean);
   }
+
+  /**
+   * 设置JSON里的java.util.Date数据类型的存储格式.<br/>
+   * 缺省的DateFormat是: new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z")
+   * @param dateformat
+   */
+  public static void setDateFormat(DateFormat dateformat) {
+    Json.setDateFormat(dateformat);
+  }
+  
 }
