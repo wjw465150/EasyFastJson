@@ -12,14 +12,21 @@ Encapsulates Jackon JSON library, Fast Speed Easy Used Json Lib For java
 Two kinds of use:  
 --------------
 ###1.  Standard JSON way:
->  `org.wjw.efjson.JsonObject JSONObjectA = new org.wjw.efjson.JsonObject(JsonString);  //create JSON Object`
->  `JSONObjectA.putBoolean();`  
+>  `org.wjw.efjson.JsonObject JSONObjectA = new org.wjw.efjson.JsonObject(JsonString);  //create JSON Object`  
 >
->  `JSONObjectA.putBinary();`  
->  `JSONObjectA.putNumber();`  
->  `JSONObjectA.putArray();`  
->  `JSONObjectA.putString();`  
->  `JSONObjectA.putObject();`  
+>  `JSONObjectA.putBoolean(String fieldName, Boolean value);`  
+>  `JSONObjectA.putBinary(String fieldName, byte[] binary);`  
+>  `JSONObjectA.putNumber(String fieldName, Number value);`  
+>  `JSONObjectA.putArray(String fieldName, JsonArray value);`  
+>  `JSONObjectA.putString(String fieldName, String value);`  
+>  `JSONObjectA.putObject(String fieldName, JsonObject value);`  
+>
+>  `JSONObjectA.getBoolean(String fieldName);`  
+>  `JSONObjectA.getBinary(String fieldName);`  
+>  `JSONObjectA.getNumber(String fieldName);`  
+>  `JSONObjectA.getArray(String fieldName);`  
+>  `JSONObjectA.getString(String fieldName);`  
+>  `JSONObjectA.getObject(String fieldName);`  
 >  
 >  `   //no Carriage return and line feed and Indentation Raw Format JSON String`<br/>
 >  `  String jsonString = JSONObjectA.encode();   `  
