@@ -4,7 +4,7 @@
   <target name="create_jar">
     <delete dir="${basedir}/doc-api" quiet="true"/>
     <javadoc access="public" author="true"
-      classpath="lib/jackson-core-2.6.0.jar;lib/jackson-databind-2.6.0.jar"
+      classpath="lib/jackson-core-2.6.3.jar;lib/jackson-databind-2.6.3.jar;lib/jackson-annotations-2.6.3.jar"
       destdir="doc-api" Windowtitle="Esay Fast Json" doctitle="Esay Fast Json" nodeprecated="false" nodeprecatedlist="false" noindex="false"
       nonavbar="false" notree="false" source="1.6" 
       splitindex="true" use="true" version="true">
@@ -21,9 +21,9 @@
   		<fileset dir="${basedir}/bin">
   		  <include name="**/**" />
   		</fileset>
-    	<zipfileset src="lib/jackson-core-2.6.0.jar"/>
-    	<zipfileset src="lib/jackson-databind-2.6.0.jar"/>
-    	<zipfileset src="lib/jackson-annotations-2.6.0.jar"/>
+    	<zipfileset src="lib/jackson-core-2.6.3.jar"/>
+    	<zipfileset src="lib/jackson-databind-2.6.3.jar"/>
+    	<zipfileset src="lib/jackson-annotations-2.6.3.jar"/>
 
   		<rule pattern="com.fasterxml.jackson.**" result="internal.com.fasterxml.jackson.@1"/>
     </jarjar>
@@ -31,7 +31,7 @@
   	<unzip src="${basedir}/EasyFastJson.jar" dest="${basedir}/tmp">
   	</unzip>
   	<delete file="${basedir}/EasyFastJson.jar"/>
-    <jar destfile="${basedir}/EasyFastJson-2.6.0.jar">
+    <jar destfile="${basedir}/EasyFastJson-2.6.3.jar">
       <fileset dir="${basedir}/tmp">
         <include name="org/**" />
         <include name="internal/**" />
@@ -40,7 +40,7 @@
   	  <manifest>
   		  <attribute name="Built-By" value="wjw465150@gmail.com" />
   		  <attribute name="Build-Name" value="EasyFastJson" />
-  		  <attribute name="Build-Version" value="2.6.0" />
+  		  <attribute name="Build-Version" value="2.6.3" />
   	  </manifest>
     </jar>
   	<delete dir="${basedir}/tmp" quiet="true"/>
