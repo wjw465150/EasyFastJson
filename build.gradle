@@ -1,0 +1,90 @@
+apply plugin: 'java'
+
+defaultTasks 'makeOneJar'
+
+version = "2.6.3"
+ext {
+  buildName = "EasyFastJson"
+}
+
+//repositories {
+//mavenCentral()
+//flatDir(dirs: file('jarsDerectory'))
+//}
+
+dependencies {
+  compile files("lib/jackson-annotations-2.6.3.jar")
+  compile files("lib/jackson-core-2.6.3.jar")
+  compile files("lib/jackson-databind-2.6.3.jar")
+}
+
+sourceSets {
+	sourceCompatibility = 1.6
+	targetCompatibility = 1.6
+	main {
+		java {
+			srcDirs = ['src']
+		}
+		resources {
+			srcDirs = ['src']
+		}
+	}
+}
+
+jar {  //禁止执行Jar Task
+  onlyIf { Task task ->
+    return false
+  }
+}
+
+javadoc {
+  destinationDir = file("${projectDir}/doc-api")
+  title = "${project.buildName}"
+  includes = ['org/wjw/efjson/*']
+
+  doLast {
+    clean.execute()
+  }
+}
+
+task makeOneJar(dependsOn: compileJava) << {
+	def basedir="${projectDir}"
+	def oneJarName="${project.buildName}-${project.version}.jar"
+	
+	ant.echo("Ant Build OneJar:${oneJarName} Start...")
+	
+	ant.taskdef(name: "jarjar", classname: "com.tonicsystems.jarjar.JarJarTask",  classpath: "lib/jarjar-1.4.jar")
+	ant.jarjar(jarfile: "${basedir}/${oneJarName}") {
+		fileset(dir: "${sourceSets['main'].output.classesDir}") {
+			include(name: "**/**")
+		}
+		zipfileset(src: "lib/jackson-annotations-2.6.3.jar")
+		zipfileset(src: "lib/jackson-core-2.6.3.jar")
+		zipfileset(src: "lib/jackson-databind-2.6.3.jar")
+		rule(pattern: "com.fasterxml.jackson.**",result: "internal.com.fasterxml.jackson.@1")
+	}
+
+	ant.delete(dir: "${basedir}/doc-api", quiet: "true")
+	ant.delete(dir: "${basedir}/tmp", quiet: "true")
+	ant.mkdir(dir: "${basedir}/tmp")
+	ant.unzip(src: "${basedir}/${oneJarName}", dest: "${basedir}/tmp")
+	ant.delete(file: "${basedir}/${oneJarName}")
+
+	ant.jar(destfile: "${basedir}/${oneJarName}") {
+		fileset(dir: "${basedir}/tmp") {
+			include(name: "org/**")
+			include(name: "internal/**")
+			include(name: "META-INF/services/**")
+		}
+		delegate.manifest {
+			attribute(name: "Built-By", value: "wjw465150@gmail.com")
+			attribute(name: "Build-Name", value: "${project.buildName}")
+			attribute(name: "Build-Version", value: "${project.version}")
+		}
+	}
+	ant.delete(dir: "${basedir}/tmp", quiet: "true")
+
+	ant.echo("Ant Build OneJar:${oneJarName} End!")
+	
+	javadoc.execute()
+}
