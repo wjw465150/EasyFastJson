@@ -61,7 +61,7 @@ task makeOneJar(dependsOn: compileJava) << {
 		zipfileset(src: "lib/jackson-annotations-2.6.5.jar")
 		zipfileset(src: "lib/jackson-core-2.6.5.jar")
 		zipfileset(src: "lib/jackson-databind-2.6.5.jar")
-		rule(pattern: "com.fasterxml.jackson.**",result: "internal.com.fasterxml.jackson.@1")
+		rule(pattern: "com.fasterxml.jackson.**",result: "org.wjw.efjson.deps.com.fasterxml.jackson.@1")
 	}
 
 	ant.delete(dir: "${basedir}/doc-api", quiet: "true")
@@ -73,7 +73,6 @@ task makeOneJar(dependsOn: compileJava) << {
 	ant.jar(destfile: "${basedir}/${oneJarName}") {
 		fileset(dir: "${basedir}/tmp") {
 			include(name: "org/**")
-			include(name: "internal/**")
 			include(name: "META-INF/services/**")
 		}
 		delegate.manifest {
