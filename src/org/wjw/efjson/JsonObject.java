@@ -394,7 +394,7 @@ public class JsonObject extends JsonElement {
   }
 
   /**
-   * 设置JSON里的java.util.Date数据类型的存储格式.<br/>
+   * 设置JSON里的java.util.Date数据类型的存储格式.
    * 缺省的DateFormat是: new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z")
    * @param dateformat
    */
