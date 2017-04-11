@@ -16,6 +16,7 @@ dependencies {
   compile files("lib/jackson-annotations-2.7.2.jar")
   compile files("lib/jackson-core-2.7.2.jar")
   compile files("lib/jackson-databind-2.7.2.jar")
+//或者:  compile fileTree(dir: "lib", includes: ["*.jar"])
 }
 
 sourceSets {
@@ -47,43 +48,45 @@ javadoc {
   }
 }
 
-task makeOneJar(dependsOn: compileJava) << {
-	def basedir="${projectDir}"
-	def oneJarName="${project.buildName}-${project.version}.jar"
-	
-	ant.echo("Ant Build OneJar:${oneJarName} Start...")
-	
-	ant.taskdef(name: "jarjar", classname: "com.tonicsystems.jarjar.JarJarTask",  classpath: "lib/jarjar-1.4.jar")
-	ant.jarjar(jarfile: "${basedir}/${oneJarName}") {
-		fileset(dir: "${sourceSets['main'].output.classesDir}") {
-			include(name: "**/**")
-		}
-		zipfileset(src: "lib/jackson-annotations-2.7.2.jar")
-		zipfileset(src: "lib/jackson-core-2.7.2.jar")
-		zipfileset(src: "lib/jackson-databind-2.7.2.jar")
-		rule(pattern: "com.fasterxml.jackson.**",result: "org.wjw.efjson.deps.com.fasterxml.jackson.@1")
+task makeOneJar(dependsOn: compileJava) {
+  doLast{
+    def basedir="${projectDir}"
+    def oneJarName="${project.buildName}-${project.version}.jar"
+    
+    ant.echo("Ant Build OneJar:${oneJarName} Start...")
+    
+    ant.taskdef(name: "jarjar", classname: "com.tonicsystems.jarjar.JarJarTask",  classpath: "lib/jarjar-1.4.jar")
+    ant.jarjar(jarfile: "${basedir}/${oneJarName}") {
+    	fileset(dir: "${sourceSets['main'].output.classesDir}") {
+    		include(name: "**/**")
+    	}
+    	zipfileset(src: "lib/jackson-annotations-2.7.2.jar")
+    	zipfileset(src: "lib/jackson-core-2.7.2.jar")
+    	zipfileset(src: "lib/jackson-databind-2.7.2.jar")
+    	rule(pattern: "com.fasterxml.jackson.**",result: "org.wjw.efjson.deps.com.fasterxml.jackson.@1")
+    }
+    
+    ant.delete(dir: "${basedir}/doc-api", quiet: "true")
+    ant.delete(dir: "${basedir}/tmp", quiet: "true")
+    ant.mkdir(dir: "${basedir}/tmp")
+    ant.unzip(src: "${basedir}/${oneJarName}", dest: "${basedir}/tmp")
+    ant.delete(file: "${basedir}/${oneJarName}")
+    
+    ant.jar(destfile: "${basedir}/${oneJarName}") {
+    	fileset(dir: "${basedir}/tmp") {
+    		include(name: "org/**")
+    		include(name: "META-INF/services/**")
+    	}
+    	delegate.manifest {
+    		attribute(name: "Built-By", value: "wjw465150@gmail.com")
+    		attribute(name: "Build-Name", value: "${project.buildName}")
+    		attribute(name: "Build-Version", value: "${project.version}")
+    	}
+    }
+    ant.delete(dir: "${basedir}/tmp", quiet: "true")
+    
+    ant.echo("Ant Build OneJar:${oneJarName} End!")
+    
+    javadoc.execute()
 	}
-
-	ant.delete(dir: "${basedir}/doc-api", quiet: "true")
-	ant.delete(dir: "${basedir}/tmp", quiet: "true")
-	ant.mkdir(dir: "${basedir}/tmp")
-	ant.unzip(src: "${basedir}/${oneJarName}", dest: "${basedir}/tmp")
-	ant.delete(file: "${basedir}/${oneJarName}")
-
-	ant.jar(destfile: "${basedir}/${oneJarName}") {
-		fileset(dir: "${basedir}/tmp") {
-			include(name: "org/**")
-			include(name: "META-INF/services/**")
-		}
-		delegate.manifest {
-			attribute(name: "Built-By", value: "wjw465150@gmail.com")
-			attribute(name: "Build-Name", value: "${project.buildName}")
-			attribute(name: "Build-Version", value: "${project.version}")
-		}
-	}
-	ant.delete(dir: "${basedir}/tmp", quiet: "true")
-
-	ant.echo("Ant Build OneJar:${oneJarName} End!")
-	
-	javadoc.execute()
 }
