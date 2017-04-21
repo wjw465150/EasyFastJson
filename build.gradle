@@ -2,7 +2,7 @@ apply plugin: 'java'
 
 defaultTasks 'makeOneJar'
 
-version = "2.7.2"
+version = "2.8.8"
 ext {
   buildName = "EasyFastJson"
 }
@@ -13,9 +13,9 @@ ext {
 //}
 
 dependencies {
-  compile files("lib/jackson-annotations-2.7.2.jar")
-  compile files("lib/jackson-core-2.7.2.jar")
-  compile files("lib/jackson-databind-2.7.2.jar")
+  compile files("lib/jackson-annotations-2.8.8.jar")
+  compile files("lib/jackson-core-2.8.8.jar")
+  compile files("lib/jackson-databind-2.8.8.jar")
 //或者:  compile fileTree(dir: "lib", includes: ["*.jar"])
 }
 
@@ -60,9 +60,9 @@ task makeOneJar(dependsOn: compileJava) {
     	fileset(dir: "${sourceSets['main'].output.classesDir}") {
     		include(name: "**/**")
     	}
-    	zipfileset(src: "lib/jackson-annotations-2.7.2.jar")
-    	zipfileset(src: "lib/jackson-core-2.7.2.jar")
-    	zipfileset(src: "lib/jackson-databind-2.7.2.jar")
+    	zipfileset(src: "lib/jackson-annotations-2.8.8.jar")
+    	zipfileset(src: "lib/jackson-core-2.8.8.jar")
+    	zipfileset(src: "lib/jackson-databind-2.8.8.jar")
     	rule(pattern: "com.fasterxml.jackson.**",result: "org.wjw.efjson.deps.com.fasterxml.jackson.@1")
     }
     
