@@ -1,16 +1,22 @@
 apply plugin: 'java'
+apply plugin: 'maven'
 
 defaultTasks 'makeOneJar'
 
+group = 'org.wjw.efjson'
 version = "2.8.8"
 ext {
   buildName = "EasyFastJson"
 }
 
-//repositories {
-//mavenCentral()
+repositories {
+  mavenLocal()
+  maven{ url "http://SVN:8081/nexus/content/groups/public"}
+  mavenCentral()
+  jcenter()
 //flatDir(dirs: file('jarsDerectory'))
-//}
+}
+
 
 dependencies {
   compile files("lib/jackson-annotations-2.8.8.jar")
@@ -43,9 +49,9 @@ javadoc {
   title = "${project.buildName}"
   includes = ['org/wjw/efjson/*']
 
-  doLast {
-    clean.execute()
-  }
+//  doLast {
+//    clean.execute()
+//  }
 }
 
 task makeOneJar(dependsOn: compileJava) {
@@ -87,6 +93,58 @@ task makeOneJar(dependsOn: compileJava) {
     
     ant.echo("Ant Build OneJar:${oneJarName} End!")
     
+    ant.copy(file: "${basedir}/${oneJarName}", tofile: "${basedir}/build/libs/${oneJarName}")
     javadoc.execute()
 	}
+}
+
+uploadArchives {
+  repositories.mavenDeployer {
+    def mvnUsername = project.findProperty("mvnUsername") ?: ""
+    def mvnPassword = project.findProperty("mvnPassword") ?: ""
+  
+    repository(url: "http://svn:8081/nexus/content/repositories/thirdparty/") {
+      authentication(userName: mvnUsername, password: mvnPassword)
+    }
+    
+    pom.groupId = "${project.group}"
+    pom.artifactId = "${project.buildName}"
+    pom.version = "${project.version}"
+    pom.project {
+      name project.name
+      packaging 'jar'
+      description 'Encapsulates Jackon JSON library, Fast Speed Easy Used Json Lib For java'
+      
+      licenses {
+        license {
+          name 'The Apache Software License, Version 2.0'
+          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          distribution 'Encapsulates Jackon JSON library, Fast Speed Easy Used Json Lib For java'
+        }
+      }
+    
+      developers {
+        developer {
+          id 'wangjunwei'
+          name 'Wang JunWei'
+        }
+      }
+    }
+  }
+}
+
+//为项目生成**.jar/**-javadoc.jar/**-sources.jar
+task javadocJar(type: Jar, dependsOn: [javadoc,makeOneJar]) {
+    classifier = 'javadoc'
+    from 'doc-api'
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
 }

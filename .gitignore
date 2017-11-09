@@ -1,3 +1,7 @@
+.gradle
+/build/
+/bin/
+/classes/
 *.class
 
 # Package Files #
