@@ -45,6 +45,7 @@ jar {  //禁止执行Jar Task
 }
 
 javadoc {
+  failOnError=false
   destinationDir = file("${projectDir}/doc-api")
   title = "${project.buildName}"
   includes = ['org/wjw/efjson/*']
@@ -134,7 +135,7 @@ uploadArchives {
 }
 
 //为项目生成**.jar/**-javadoc.jar/**-sources.jar
-task javadocJar(type: Jar, dependsOn: [javadoc,makeOneJar]) {
+task javadocJar(type: Jar, dependsOn: [makeOneJar]) {
     classifier = 'javadoc'
     from 'doc-api'
 }
