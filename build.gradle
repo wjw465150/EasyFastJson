@@ -1,7 +1,7 @@
 buildscript {
   repositories {
     mavenLocal()
-    maven{ url "http://SVN:8081/nexus/content/groups/public"}
+    maven { url "https://plugins.gradle.org/m2/"}
     mavenCentral()
     jcenter()
   }
@@ -13,10 +13,12 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'signing' //使用signing plugin做数字签名
+apply from: rootDir.canonicalPath + '/.gradle/publish.gradle'
 
 defaultTasks 'shadowJar'
 
-group = 'org.wjw.efjson'
+group = 'com.github.wjw465150'
 version = "2.9.6"
 ext {
   buildName = "easyfastjson"
@@ -24,7 +26,6 @@ ext {
 
 repositories {
   mavenLocal()
-  maven{ url "http://SVN:8081/nexus/content/groups/public"}
   mavenCentral()
   jcenter()
 //flatDir(dirs: file('jarsDerectory'))
@@ -85,11 +86,11 @@ shadowJar {
 
 uploadArchives {
   repositories.mavenDeployer {
-    def mvnUsername = project.findProperty("mvnUsername") ?: ""
-    def mvnPassword = project.findProperty("mvnPassword") ?: ""
-  
-    repository(url: "http://svn:8081/nexus/content/repositories/3rdparty/") {
-      authentication(userName: mvnUsername, password: mvnPassword)
+    //为Pom文件做数字签名  
+    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) } 
+            
+    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+      authentication(userName: sonatypeUsername, password: sonatypePassword)
     }
     
     pom.groupId = "${project.group}"
@@ -99,6 +100,13 @@ uploadArchives {
       name project.name
       packaging 'jar'
       description 'Encapsulates Jackon JSON library, Fast Speed Easy Used Json Lib For java'
+      url 'https://github.com/wjw465150/EasyFastJson'
+      
+      scm {
+        url "https://github.com/wjw465150/EasyFastJson"
+        connection "https://github.com/wjw465150/EasyFastJson.git"
+        developerConnection "https://github.com/wjw465150/EasyFastJson.git"
+      }
       
       licenses {
         license {
@@ -110,8 +118,8 @@ uploadArchives {
     
       developers {
         developer {
-          id 'wangjunwei'
-          name 'Wang JunWei'
+          id 'wjw465150'
+          name 'wjw465150'
         }
       }
     }
@@ -132,4 +140,9 @@ task sourcesJar(type: Jar) {
 artifacts {
     archives javadocJar
     archives sourcesJar
+}
+
+//为所有的jar包做数字签名  
+signing {  
+  sign configurations.archives  
 }
