@@ -1,0 +1,4 @@
+//By default, Gradle uses the directory name as project name. 
+//Project names can only be set in ‘settings.gradle’; they are read-only in build scripts. 
+//You can change this by creating a settings.gradle file in the directory which specifies the project name.
+rootProject.name = "easyfastjson"
