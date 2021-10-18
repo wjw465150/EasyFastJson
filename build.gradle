@@ -1,3 +1,6 @@
+//打包: gradlew -x test clean build 成功后发布:gradlew -x test publish 
+//然后登录https://oss.sonatype.org/#stagingRepositories来查看,你的提交在未处理前，是`open`状态，然后点击`Close`按钮;然后等一会点击`Release`来发布
+
 buildscript {
   repositories {
     mavenLocal()
@@ -29,7 +32,7 @@ apply from: rootDir.canonicalPath + '/.gradle/publish.gradle'
 defaultTasks 'shadowJar'
 
 group = 'com.github.wjw465150'   //Sonatype上的Issue里填写的`Group Id`,可以跟package路径完全不一样
-version = "2.9.6"
+version = "2.11.4"
 
 repositories {
   mavenLocal()
@@ -40,9 +43,9 @@ repositories {
 
 
 dependencies {
-  compile files("lib/jackson-annotations-2.9.6.jar")
-  compile files("lib/jackson-core-2.9.6.jar")
-  compile files("lib/jackson-databind-2.9.6.jar")
+  compile files("lib/jackson-annotations-${project.version}.jar")
+  compile files("lib/jackson-core-${project.version}.jar")
+  compile files("lib/jackson-databind-${project.version}.jar")
   //或者:  compile fileTree(dir: "lib", includes: ["*.jar"])
 }
 
@@ -71,8 +74,7 @@ javadoc {
 
 //为项目生成**.jar/**-javadoc.jar/**-sources.jar
 task javadocJar(type: Jar, dependsOn: [shadowJar]) {
-//  from 'doc-api'
-    from javadoc
+  from javadoc
   classifier = 'javadoc'
 }
 
