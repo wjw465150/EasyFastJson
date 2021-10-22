@@ -249,15 +249,15 @@ public class JsonObject extends JsonElement {
   }
 
   /** 
-   * Êä³ö³ÉJSON¸ñÊ½µÄ×Ö·û´®
-   * @return JSON×Ö·û´®
+   * è¾“å‡ºæˆJSONæ ¼å¼çš„å­—ç¬¦ä¸²
+   * @return JSONå­—ç¬¦ä¸²
    */
   public String encode() {
     return Json.encode(this.map);
   }
 
   /**
-   * Êä³ö³ÉÒ×¶Á¸ñÊ½µÄJSON¸ñÊ½µÄ×Ö·û´®
+   * è¾“å‡ºæˆæ˜“è¯»æ ¼å¼çš„JSONæ ¼å¼çš„å­—ç¬¦ä¸²
    */
   public String encodePrettily() {  //@wjw_add
     return Json.encodePrettily(this.map);
@@ -323,13 +323,13 @@ public class JsonObject extends JsonElement {
   }
 
   /**
-   * °ÑJSON¸ñÊ½µÄ×Ö·û´®,×ª»»³ÉJava¶ÔÏó
+   * æŠŠJSONæ ¼å¼çš„å­—ç¬¦ä¸²,è½¬æ¢æˆJavaå¯¹è±¡
    * @param <T>
-   *          ·ºĞÍÉùÃ÷
+   *          æ³›å‹å£°æ˜
    * @param json
-   *          JSON×Ö·û´®
+   *          JSONå­—ç¬¦ä¸²
    * @param clzz
-   *          Òª×ª»»¶ÔÏóµÄÀàĞÍ
+   *          è¦è½¬æ¢å¯¹è±¡çš„ç±»å‹
    * @return
    * @throws DecodeException
    */
@@ -338,15 +338,15 @@ public class JsonObject extends JsonElement {
   }
 
   /**
-   * °ÑJSON¸ñÊ½µÄ×Ö·û´®,×ª»»³ÉJavaµÄ¼¯ºÏ¶ÔÏó(List,Map)¶ÔÏó
+   * æŠŠJSONæ ¼å¼çš„å­—ç¬¦ä¸²,è½¬æ¢æˆJavaçš„é›†åˆå¯¹è±¡(List,Map)å¯¹è±¡
    * @param <T>
-   *          ·ºĞÍÉùÃ÷
+   *          æ³›å‹å£°æ˜
    * @param json
-   *          JSON×Ö·û´®
+   *          JSONå­—ç¬¦ä¸²
    * @param collectionClass
-   *          Òª×ª»»¼¯ºÏµÄÀàĞÍ
+   *          è¦è½¬æ¢é›†åˆçš„ç±»å‹
    * @param elementClasses
-   *          Òª×ª»»ÔªËØµÄÀàĞÍ
+   *          è¦è½¬æ¢å…ƒç´ çš„ç±»å‹
    * @return
    * @throws DecodeException
    */
@@ -355,13 +355,13 @@ public class JsonObject extends JsonElement {
   }
   
   /**
-   * °ÑJSON¸ñÊ½µÄ×Ö·û´®,×ª»»³ÉJava¶ÔÏó
+   * æŠŠJSONæ ¼å¼çš„å­—ç¬¦ä¸²,è½¬æ¢æˆJavaå¯¹è±¡
    * @param <T>
-   *          ·ºĞÍÉùÃ÷
+   *          æ³›å‹å£°æ˜
    * @param json
-   *          JSON×Ö·û´®
+   *          JSONå­—ç¬¦ä¸²
    * @param valueTypeRef
-   *          Õë¶Ô¼¯ºÏ·ºĞÍµÄÀàĞÍÒıÓÃÀà
+   *          é’ˆå¯¹é›†åˆæ³›å‹çš„ç±»å‹å¼•ç”¨ç±»
    * @return
    * @throws DecodeException
    */
@@ -370,32 +370,32 @@ public class JsonObject extends JsonElement {
   }
   
   /** 
-   * °ÑJava¶ÔÏóÊä³ö³ÉJSON¸ñÊ½µÄ×Ö·û´®
+   * æŠŠJavaå¯¹è±¡è¾“å‡ºæˆJSONæ ¼å¼çš„å­—ç¬¦ä¸²
    * @param <T>
-   *          ·ºĞÍÉùÃ÷
+   *          æ³›å‹å£°æ˜
    * @param bean
-   *          ÀàµÄÊµÀı
-   * @return JSON×Ö·û´®
+   *          ç±»çš„å®ä¾‹
+   * @return JSONå­—ç¬¦ä¸²
    */
   public static <T> String toJson(T bean) throws EncodeException {
     return Json.encode(bean);
   }
 
   /**
-   * °ÑJava¶ÔÏóÊä³ö³ÉÒ×¶Á¸ñÊ½µÄJSON¸ñÊ½µÄ×Ö·û´®
+   * æŠŠJavaå¯¹è±¡è¾“å‡ºæˆæ˜“è¯»æ ¼å¼çš„JSONæ ¼å¼çš„å­—ç¬¦ä¸²
    * @param <T>
-   *          ·ºĞÍÉùÃ÷
+   *          æ³›å‹å£°æ˜
    * @param bean
-   *          ÀàµÄÊµÀı
-   * @return JSON×Ö·û´®
+   *          ç±»çš„å®ä¾‹
+   * @return JSONå­—ç¬¦ä¸²
    */
   public static <T> String toJsonPrettily(T bean) throws EncodeException {
     return Json.encodePrettily(bean);
   }
 
   /**
-   * ÉèÖÃJSONÀïµÄjava.util.DateÊı¾İÀàĞÍµÄ´æ´¢¸ñÊ½.
-   * È±Ê¡µÄDateFormatÊÇ: new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z")
+   * è®¾ç½®JSONé‡Œçš„java.util.Dateæ•°æ®ç±»å‹çš„å­˜å‚¨æ ¼å¼.
+   * ç¼ºçœçš„DateFormatæ˜¯: new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z")
    * @param dateformat
    */
   public static void setDateFormat(DateFormat dateformat) {

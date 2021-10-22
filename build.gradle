@@ -1,22 +1,12 @@
-//打包: gradlew -x test clean build 成功后发布:gradlew -x test publish 
+//打包: gradlew -x test clean build shadowJar 成功后发布:gradlew -x test publish 
 //然后登录https://oss.sonatype.org/#stagingRepositories来查看,你的提交在未处理前，是`open`状态，然后点击`Close`按钮;然后等一会点击`Release`来发布
 
-buildscript {
-  repositories {
-    mavenLocal()
-    maven { url "https://plugins.gradle.org/m2/"}
-    mavenCentral()
-    jcenter()
-  }
-  dependencies {
-    classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
-  }
+plugins {
+  id 'com.github.johnrengelman.shadow' version '7.1.0'
+  id 'java'
+  id 'maven-publish'
+  id 'signing' //使用signing plugin做数字签名
 }
-
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'signing' //使用signing plugin做数字签名
 
 //密码,GPG签名信息在此文件里,格式如下
 /*
@@ -33,18 +23,20 @@ defaultTasks 'shadowJar'
 
 group = 'com.github.wjw465150'   //Sonatype上的Issue里填写的`Group Id`,可以跟package路径完全不一样
 version = "2.11.4"
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
 repositories {
   mavenLocal()
-  maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }  //优先使用阿里的镜像  mavenCentral()
+  maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }  //优先使用阿里的镜像  
+  mavenCentral()
   //flatDir(dirs: file('jarsDerectory'))
 }
 
 
 dependencies {
-  compile "com.fasterxml.jackson.core:jackson-core:${project.version}"
-  compile "com.fasterxml.jackson.core:jackson-annotations:${project.version}"
-  compile "com.fasterxml.jackson.core:jackson-databind:${project.version}"
+  implementation "com.fasterxml.jackson.core:jackson-core:${project.version}"
+  implementation "com.fasterxml.jackson.core:jackson-annotations:${project.version}"
+  implementation "com.fasterxml.jackson.core:jackson-databind:${project.version}"
   
   //或者:  compile fileTree(dir: "lib", includes: ["*.jar"])
 }
@@ -81,12 +73,14 @@ task javadocJar(type: Jar, dependsOn: [shadowJar]) {
 task sourcesJar(type: Jar) {
   from sourceSets.main.allSource
   classifier = 'sources'
+  
+  duplicatesStrategy = 'EXCLUDE'
 }
 
 shadowJar {
-  baseName = project.name
-  classifier = null
-  version = project.version
+  archiveBaseName.set(project.name)
+  archiveClassifier.set('')
+  archiveVersion.set(project.version)
 
   relocate 'com.fasterxml.jackson', 'org.wjw.efjson.deps.com.fasterxml.jackson'
 
@@ -101,8 +95,7 @@ shadowJar {
     attributes "Build-Version": "${project.version}"
   }
 
-  javadoc.execute()
-
+  dependsOn javadoc
 }
 
 publishing {
