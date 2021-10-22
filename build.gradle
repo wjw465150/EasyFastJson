@@ -36,16 +36,16 @@ version = "2.11.4"
 
 repositories {
   mavenLocal()
-  mavenCentral()
-  jcenter()
+  maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }  //优先使用阿里的镜像  mavenCentral()
   //flatDir(dirs: file('jarsDerectory'))
 }
 
 
 dependencies {
-  compile files("lib/jackson-annotations-${project.version}.jar")
-  compile files("lib/jackson-core-${project.version}.jar")
-  compile files("lib/jackson-databind-${project.version}.jar")
+  compile "com.fasterxml.jackson.core:jackson-core:${project.version}"
+  compile "com.fasterxml.jackson.core:jackson-annotations:${project.version}"
+  compile "com.fasterxml.jackson.core:jackson-databind:${project.version}"
+  
   //或者:  compile fileTree(dir: "lib", includes: ["*.jar"])
 }
 
